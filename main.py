@@ -1,4 +1,6 @@
-def say_hello():  # 함수정의
-  print("hello how r u?")
+def say_hello(name):  # (name) parameter
+  print("hello", name, "how r u?")
 
-say_hello()  # 함수호출
+say_hello("sumin")  # 함수호출
+say_hello("nico")
+say_hello("minsu") # ("minsu") argument
