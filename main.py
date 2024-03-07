@@ -1,8 +1,5 @@
-def tax_calc(money):
-  return money * 0.35
+my_name = "sumin"
+my_age = 24
+my_color_eyes = "brown"
 
-def pay_tax(tax):
-  print("thank you for paying", tax)
-
-to_pay = tax_calc(14)
-pay_tax(to_pay)
+print(f"Hello I'm {my_name}, I have {my_age} years in the earth, {my_color_eyes} is my eye color")
