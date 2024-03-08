@@ -1,19 +1,12 @@
-age = int(input("How old are you?"))
+from random import randint
 
-if age < 18:
-  print("You can't drink")
-elif age > 18 and age < 35: # and는 둘 다 참일 때만 참이다. 앞부분이 거짓이면 
-  print("You drink beer!")  # 뒷부분은 확인하지 않는다.
-elif age == 60 or age ==70:
-  print("Birthday party!")  # or는 둘 중 하나만 참이면 참이다.
-else:
-  print("Go ahead!")
-  
-# True and True = True
-# True and False = False
-# False and True = False
-# False and False = False
-# True or True = True
-# True or False = True
-# False or True = True
-# False or False = False
+user_choice = int(input("Choose number"))
+
+pc_choice = randint(1, 50)
+
+if user_choice == pc_choice:
+  print("You won!")
+elif user_choice > pc_choice:
+  print("Lower!")
+elif user_choice < pc_choice:
+  print("Higher!")
