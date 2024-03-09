@@ -1,15 +1,16 @@
-from random import randint
+days_of_week = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+]
 
-pc_choice = randint(1, 50)
-
-playing = True
-
-while playing:
-  user_choice = int(input("Choose number: "))
-  if user_choice == pc_choice:
-    print("You won!")
-    playing = False
-  elif user_choice > pc_choice:
-    print("Lower!")
-  elif user_choice < pc_choice:
-    print("Higher!")
+print(days_of_week.count("Wednesday")) # method count()
+# 메소드는 데이터 타입에 따라 사용할 수 있는 함수를 의미한다.
+days_of_week.remove("Sunday")
+print(days_of_week)
+days_of_week.append("Sunday")
+print(days_of_week)
