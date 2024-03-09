@@ -1,14 +1,13 @@
-user = {
-  'name': 'sumin',
-  'age': 22,
-  'fav_food': ['pizza', 'burger'],
-}
+from requests import get
 
-print(user.get('age'))
-print(user.get('name'))
-user.pop('age')
-print(user)
-user['level'] = 3
-print(user)
-user['fav_food'].append('ice cream')
-print(user)
+websites = (
+  "google.com",
+  "airbnb.com",
+  "twitter.com",
+  "facebook.com",
+)
+
+for website in websites:
+  if not website.startswith("https://"):
+    website = f"https://{website}"
+  print(website)
