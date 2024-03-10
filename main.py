@@ -1,30 +1,13 @@
-from requests import get
+class Puppy:
 
-websites=[
-"google.com",
-"https://httpstat.us/502",
-"https://httpstat.us/404",
-"https://httpstat.us/300",
-"https://httpstat.us/200",
-"https://httpstat.us/101"
-]
-#https://httpstat.us/xxx 는 http코드를 생성해주는 사이트입니다
+  def __init__(self, name, breed):  # class 안에 있는 method는 자동적으로 argument 하나를 받는다.
+    print("Puppy is born")
+    self.name = name
+    self.breedd = breed
 
-results={}
+  def __str__(self):
+    return f"Puppy name is {self.name}, breed is {self.breedd}"
 
-for website in websites:
-  if not website.startswith("https://"):
-    website = f"https://{website}"
-  code = get(website).status_code
-  if code >= 500:
-    results[website] = "5xx / server error"
-  elif code >= 400:
-    results[website] = "4xx / client error"
-  elif code >= 300:
-    results[website] = "3xx / redirection "
-  elif code >= 200:
-    results[website] = "2xx / successful"
-  elif code >= 100:
-    results[website] = "1xx / informational response"
-
-print(results)
+ruffus = Puppy(name="ruffus", breed="golden")
+bibi = Puppy(name="bibi", breed="beagle")
+print(ruffus,bibi)
