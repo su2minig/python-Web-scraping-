@@ -10,4 +10,5 @@ websites = (
 for website in websites:
   if not website.startswith("https://"):
     website = f"https://{website}"
-  print(website)
+    response = get(website)
+  print(response) # 200, 429, 400, 200
