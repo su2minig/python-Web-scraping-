@@ -10,7 +10,9 @@ class web_scraper:
     self.jobs = []
     self.language = language
     self.get_page()
+    print("---------start---------")
     print(self.jobs)
+    print("---------finish----------")
 
   def get_page(self):
     response = requests.get(self.url, headers={
