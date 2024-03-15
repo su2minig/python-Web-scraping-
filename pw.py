@@ -10,25 +10,25 @@ browser = p.chromium.launch(headless=False)
 
 page = browser.new_page()
 
-page.goto("https://www.wanted.co.kr/")
+page.goto("https://www.wanted.co.kr/search?query=flutter")
 
-time.sleep(5)
+# time.sleep(5)
 
-page.click("button.Aside_searchButton__Xhqq3")
+# page.click("button.Aside_searchButton__Xhqq3")
 
-time.sleep(5)
+# time.sleep(5)
 
-page.get_by_placeholder("검색어를 입력해 주세요.").fill("python")
+# page.get_by_placeholder("검색어를 입력해 주세요.").fill("python")
 
-time.sleep(5)
+# time.sleep(5)
 
-page.keyboard.press("Enter")
+# page.keyboard.press("Enter")
 
-time.sleep(10)
+# time.sleep(10)
 
-page.click("a#search_tab_position")
+# page.click("a#search_tab_position")
 
-time.sleep(5)
+# time.sleep(5)
 
 for x in range(5):
   page.keyboard.press("End")
@@ -39,3 +39,22 @@ content = print(page.content())
 p.stop()
 
 soup = BeautifulSoup(content, "html.parser")
+
+jobs = soup.find_all("div", class_="JobCard_container__FqChn")
+
+jobs_db = []
+
+for job in jobs:
+  link = f"https://www.wanted.co.kr{job.find('a')['href']}"
+  title = job.find("strong", class_="JobCard_title__ddkwM").text
+  company = job.find("span", class_="JobCard_companyContent__zUT91").text
+  reward = job.find("span", class_="JobCard_reward__sdyHn").text
+  job = {
+    "link": link,
+    "title": title,
+    "company": company,
+    "reward": reward
+  }
+  jobs_db.append(job)
+  
+  print(jobs_db)
