@@ -1,6 +1,7 @@
 from playwright.sync_api import sync_playwright
 import time
 from bs4 import BeautifulSoup
+import csv
 
 p = sync_playwright().start()
 
@@ -28,13 +29,20 @@ page.goto("https://www.wanted.co.kr/search?query=flutter")
 
 # page.click("a#search_tab_position")
 
-# time.sleep(5)
+time.sleep(5)
+
+page.keyboard.press("End")
+
+time.sleep(5)
+
+button_element = page.wait_for_selector('[data-testid="SearchContentViewMoreButton"]')
+button_element.click()
 
 for x in range(5):
   page.keyboard.press("End")
   time.sleep(5)
 
-content = print(page.content())
+content = page.content()
 
 p.stop()
 
@@ -47,7 +55,7 @@ jobs_db = []
 for job in jobs:
   link = f"https://www.wanted.co.kr{job.find('a')['href']}"
   title = job.find("strong", class_="JobCard_title__ddkwM").text
-  company = job.find("span", class_="JobCard_companyContent__zUT91").text
+  company = job.find("span", class_="JobCard_companyName__vZMqJ").text
   reward = job.find("span", class_="JobCard_reward__sdyHn").text
   job = {
     "link": link,
@@ -58,3 +66,15 @@ for job in jobs:
   jobs_db.append(job)
   
   print(jobs_db)
+  
+file = open("jobs.csv", "w")
+writter = csv.writer(file)
+writter.writerow([
+  "link",
+  "title",
+  "company",
+  "reward",
+])
+
+for job in jobs_db:
+  writter.writerow(job.values())
