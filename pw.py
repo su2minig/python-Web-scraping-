@@ -3,78 +3,69 @@ import time
 from bs4 import BeautifulSoup
 import csv
 
-p = sync_playwright().start()
+class JobsScraper:
+    def __init__(self):
+        self.p = sync_playwright().start()
+        self.browser = self.p.chromium.launch(headless=False)
+        self.page = self.browser.new_page()
+        self.jobs_db = []
 
-browser = p.chromium.launch(headless=False) 
-# playwright에 기본으로 headless가 true로 되어있어서 코드가 실행되어도 브라우저가 뜨지 않는다. 
-# 그래서 headless를 false로 설정해준다.
+    def scrape_jobs(self, job):
+        self.page.goto(f"https://www.wanted.co.kr/search?query={job}")
+        file_name = f"jobs_{job}.csv"
 
-page = browser.new_page()
+        time.sleep(5)
 
-page.goto("https://www.wanted.co.kr/search?query=flutter")
+        self.page.keyboard.press("End")
 
-# time.sleep(5)
+        time.sleep(5)
 
-# page.click("button.Aside_searchButton__Xhqq3")
+        button_element = self.page.wait_for_selector('[data-testid="SearchContentViewMoreButton"]')
+        button_element.click()
 
-# time.sleep(5)
+        for x in range(5):
+            self.page.keyboard.press("End")
+            time.sleep(5)
 
-# page.get_by_placeholder("검색어를 입력해 주세요.").fill("python")
+        content = self.page.content()
 
-# time.sleep(5)
+        soup = BeautifulSoup(content, "html.parser")
 
-# page.keyboard.press("Enter")
+        jobs = soup.find_all("div", class_="JobCard_container__FqChn")
 
-# time.sleep(10)
+        for job in jobs:
+            link = f"https://www.wanted.co.kr{job.find('a')['href']}"
+            title = job.find("strong", class_="JobCard_title__ddkwM").text
+            company = job.find("span", class_="JobCard_companyName__vZMqJ").text
+            reward = job.find("span", class_="JobCard_reward__sdyHn").text
+            job_info = {
+                "link": link,
+                "title": title,
+                "company": company,
+                "reward": reward
+            }
+            self.jobs_db.append(job_info)
 
-# page.click("a#search_tab_position")
+        self.file = open(file_name, mode="w", encoding="utf-8", newline="")
+        self.writer = csv.writer(self.file)
+        self.writer.writerow(["title", "company", "reward", "link"])
+        
+        for job in self.jobs_db:
+          self.writer.writerow(job.values())
 
-time.sleep(5)
+    def close(self):
+        self.p.stop()
 
-page.keyboard.press("End")
+# 검색어 리스트
+jobs = ["flutter", "python", "node.js"]
 
-time.sleep(5)
+# JobsScraper 객체 생성
+scraper = JobsScraper()
 
-button_element = page.wait_for_selector('[data-testid="SearchContentViewMoreButton"]')
-button_element.click()
-
-for x in range(5):
-  page.keyboard.press("End")
-  time.sleep(5)
-
-content = page.content()
-
-p.stop()
-
-soup = BeautifulSoup(content, "html.parser")
-
-jobs = soup.find_all("div", class_="JobCard_container__FqChn")
-
-jobs_db = []
-
+# 검색어마다 스크랩 및 저장 수행
 for job in jobs:
-  link = f"https://www.wanted.co.kr{job.find('a')['href']}"
-  title = job.find("strong", class_="JobCard_title__ddkwM").text
-  company = job.find("span", class_="JobCard_companyName__vZMqJ").text
-  reward = job.find("span", class_="JobCard_reward__sdyHn").text
-  job = {
-    "link": link,
-    "title": title,
-    "company": company,
-    "reward": reward
-  }
-  jobs_db.append(job)
-  
-  print(jobs_db)
-  
-file = open("jobs.csv", "w", encoding="utf-8")
-writter = csv.writer(file)
-writter.writerow([
-  "link",
-  "title",
-  "company",
-  "reward",
-])
+    scraper.scrape_jobs(job)
+    
 
-for job in jobs_db:
-  writter.writerow(job.values())
+# Playwright 종료
+scraper.close()
