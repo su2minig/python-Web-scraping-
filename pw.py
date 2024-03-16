@@ -67,7 +67,7 @@ for job in jobs:
   
   print(jobs_db)
   
-file = open("jobs.csv", "w")
+file = open("jobs.csv", "w", encoding="utf-8")
 writter = csv.writer(file)
 writter.writerow([
   "link",
