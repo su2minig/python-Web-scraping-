@@ -1,7 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
+from file import save_to_file
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, send_file
 
 class web_scraper:
 
@@ -48,6 +49,8 @@ def home():
 @app.route("/search")
 def search():
   keyword = request.args.get("keyword")
+  if keyword == None:
+    return render_template("home.html", name="sumin")
   if keyword in db:
     jobs = db[keyword]
   else:
@@ -61,5 +64,14 @@ def search():
   }
   return render_template("search.html", result=result)
 
+@app.route("/export")
+def export():
+  keyword = request.args.get("keyword")
+  if keyword == None:
+    return redirect("/")
+  if keyword not in db:
+    return redirect(f"/search?keyword={keyword}")
+  save_to_file(keyword, db[keyword])
+  return send_file(f"{keyword}.csv", as_attachment=True)
 
 app.run('0.0.0.0',port=5000,debug=True)
