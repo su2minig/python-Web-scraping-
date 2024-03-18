@@ -48,10 +48,10 @@ class JobsScraper:
 
         self.file = open(file_name, mode="w", encoding="utf-8", newline="")
         self.writer = csv.writer(self.file)
-        self.writer.writerow(["title", "company", "reward", "link"])
+        self.writer.writerow(["link", "title", "company", "reward"])
         
         for job in self.jobs_db:
-          self.writer.writerow(job.values())
+            self.writer.writerow(job.values())
 
     def close(self):
         self.p.stop()
