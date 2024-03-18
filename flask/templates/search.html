@@ -5,14 +5,34 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Job Scrapper</title>
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
 </head>
 <body>
-  <h1>Search Results for "{{result.keyword}}":</h1>
-  {% for job in result.jobs %}
-    <div>{{job.url}}</div>
-    <div>{{job.title}}</div>
-    <div>{{job.company}}</div>
-    <div>{{job.location}}</div>
-  {% endfor %}
+  <main class="container">
+    <h1>Search Results for "{{result.keyword}}":</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>title</th>
+          <th>company</th>
+          <th>location</th>
+          <th>url</th>
+        </tr>
+        <tbody>
+          {% for job in result.jobs %}
+            <tr>
+              <td>{{job.title}}</td>
+              <td>{{job.company}}</td>
+              <td>{{job.location}}</td>
+              <td><a href="{{job.url}}" target="_blank">Apply now &rarr;</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </thead>
+      
+    </table>
+  </main>
 </body>
 </html>
