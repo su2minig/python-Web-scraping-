@@ -38,19 +38,23 @@ class web_scraper:
 
 app = Flask("JobScrapper")
 
+db = {}
+
 @app.route("/")
 def home():
   return render_template("home.html", name="sumin")
 
 
 @app.route("/search")
-def hello():
+def search():
   keyword = request.args.get("keyword")
-  jlist = web_scraper(keyword)
-  jobs = jlist.get_jobs()
-  print("________________________________")
-  print(jobs)
-  print("________________________________")
+  if keyword in db:
+    jobs = db[keyword]
+  else:
+    jlist = web_scraper(keyword)
+    jobs = jlist.get_jobs()
+    db[keyword] = jobs
+    
   result = {
       "jobs": jobs,
       "keyword": keyword
