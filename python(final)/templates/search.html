@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Scrapper</title>
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+</head>
+<body>
+  <main class="container">
+    <hgroup>
+      <h1>Search Results for wework "{{keyword}}":</h1>
+    </hgroup>
+    <table>
+      <thead>
+        <tr>
+          <th>title</th>
+          <th>company</th>
+          <th>location</th>
+          <th>url</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for job in result.wework %}
+          <tr>
+            <td>{{job.title}}</td>
+            <td>{{job.company}}</td>
+            <td>{{job.location}}</td>
+            <td><a href="{{job.url}}" target="_blank">Apply now &rarr;</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <hgroup>
+      <h1>Search Results for web3 "{{keyword}}":</h1>
+    </hgroup>
+    <table>
+      <thead>
+        <tr>
+          <th>title</th>
+          <th>company</th>
+          <th>reward</th>
+          <th>location</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for job in result.web3 %}
+          <tr>
+            <td>{{job.title}}</td>
+            <td>{{job.company}}</td>
+            <td>{{job.reward}}</td>
+            <td>{{job.location}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <hgroup>
+      <h1>Search Results for berlin "{{keyword}}":</h1>
+    </hgroup>
+    <table>
+      <thead>
+        <tr>
+          <th>title</th>
+          <th>company</th>
+          <th>info</th>
+          <th>url</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for job in result.berlin %}
+          <tr>
+            <td>{{job.title}}</td>
+            <td>{{job.company}}</td>
+            <td>{{job.info}}</td>
+            <td><a href="{{job.link}}" target="_blank">Apply now &rarr;</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>
